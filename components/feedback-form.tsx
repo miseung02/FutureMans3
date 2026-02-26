@@ -10,7 +10,7 @@ export function FeedbackForm() {
   const [submitted, setSubmitted] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!feedback.trim()) return
     setIsSubmitting(true)
 
@@ -19,10 +19,18 @@ export function FeedbackForm() {
       length: feedback.trim().length,
     })
 
-    setTimeout(() => {
-      setIsSubmitting(false)
-      setSubmitted(true)
-    }, 600)
+    try {
+      await fetch("/api/feedback", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: feedback.trim() }),
+      })
+    } catch {
+      // silently fail - analytics already captured the intent
+    }
+
+    setIsSubmitting(false)
+    setSubmitted(true)
   }
 
   const handleReset = () => {
