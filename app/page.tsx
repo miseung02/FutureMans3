@@ -8,7 +8,7 @@ import { JoinDialog } from "@/components/join-dialog"
 import { FeedbackForm } from "@/components/feedback-form"
 import { meetups, type Category, type Meetup } from "@/lib/meetup-data"
 import { logEvent } from "@/lib/analytics"
-import { Zap, TrendingUp } from "lucide-react"
+import { Zap, TrendingUp, Download } from "lucide-react"
 
 export default function HomePage() {
   const [activeCategory, setActiveCategory] = useState<Category>("전체")
@@ -100,6 +100,25 @@ export default function HomePage() {
           <p className="mt-1 text-[10px] text-muted-foreground/60">
             {"부산대학교 학생들을 위한 실시간 번개 매칭 서비스"}
           </p>
+          {/* Admin export links */}
+          <div className="mt-4 flex items-center justify-center gap-3">
+            <a
+              href="/api/export?table=signups"
+              download
+              className="flex items-center gap-1 rounded-md px-2 py-1 text-[10px] text-muted-foreground/40 transition-colors hover:text-muted-foreground"
+            >
+              <Download className="h-3 w-3" />
+              {"signups.csv"}
+            </a>
+            <a
+              href="/api/export?table=feedback"
+              download
+              className="flex items-center gap-1 rounded-md px-2 py-1 text-[10px] text-muted-foreground/40 transition-colors hover:text-muted-foreground"
+            >
+              <Download className="h-3 w-3" />
+              {"feedback.csv"}
+            </a>
+          </div>
         </footer>
       </main>
 

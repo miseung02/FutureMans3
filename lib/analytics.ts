@@ -1,3 +1,5 @@
+import { track } from "@vercel/analytics"
+
 type EventType =
   | "page_view"
   | "category_click"
@@ -7,24 +9,10 @@ type EventType =
   | "dialog_close"
   | "feedback_submit"
 
-interface AnalyticsEvent {
-  type: EventType
-  timestamp: string
-  data: Record<string, string | number | boolean>
-}
-
-const eventLog: AnalyticsEvent[] = []
-
 export function logEvent(type: EventType, data: Record<string, string | number | boolean>) {
-  const event: AnalyticsEvent = {
-    type,
-    timestamp: new Date().toISOString(),
-    data,
+  try {
+    track(type, data)
+  } catch {
+    // silently ignore analytics errors
   }
-  eventLog.push(event)
-  console.log(`[PNU 벼락 Analytics] ${type}`, JSON.stringify(data))
-}
-
-export function getEventLog(): AnalyticsEvent[] {
-  return [...eventLog]
 }

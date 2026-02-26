@@ -46,21 +46,39 @@ export function JoinDialog({ meetup, open, onOpenChange }: JoinDialogProps) {
     onOpenChange(newOpen)
   }
 
-  const handleSubmit = () => {
-    if (!kakaoId.trim()) return
+  const handleSubmit = async () => {
+    if (!kakaoId.trim() || !meetup) return
     setIsSubmitting(true)
 
     logEvent("notification_signup", {
-      meetupId: meetup?.id || "",
-      category: meetup?.category || "",
-      title: meetup?.title || "",
+      meetupId: meetup.id,
+      category: meetup.category,
+      title: meetup.title,
       kakaoId: kakaoId.trim(),
     })
 
+    try {
+      await fetch("/api/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          kakao_id: kakaoId.trim(),
+          meetup_id: meetup.id,
+          meetup_title: meetup.title,
+          meetup_category: meetup.category,
+        }),
+      })
+    } catch {
+      // silently fail - analytics already captured the intent
+    }
+
+    setIsSubmitting(false)
+    setSubmitted(true)
+
+    // Auto-close after showing success
     setTimeout(() => {
-      setIsSubmitting(false)
-      setSubmitted(true)
-    }, 800)
+      handleOpenChange(false)
+    }, 1800)
   }
 
   return (
@@ -120,7 +138,7 @@ export function JoinDialog({ meetup, open, onOpenChange }: JoinDialogProps) {
               <span className="text-3xl" aria-hidden="true">{"🎉"}</span>
             </div>
             <div>
-              <h3 className="mb-1 text-lg font-bold text-foreground">{"신청 완료!"}</h3>
+              <h3 className="mb-1 text-lg font-bold text-foreground">{"신청이 완료되었습니다! \u26A1\uFE0F"}</h3>
               <p className="text-sm text-muted-foreground leading-relaxed">
                 {"정식 출시 시 카카오톡으로 알려드릴게요."}
                 <br />
