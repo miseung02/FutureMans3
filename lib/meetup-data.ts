@@ -1,8 +1,8 @@
-export type Category = "전체" | "러닝/운동" | "보드게임" | "위스키/사케" | "카공/스터디"
+export type Category = "전체" | "러닝/운동" | "보드게임" | "음주" | "스터디" | "요청사항"
 
 export interface Meetup {
   id: string
-  category: Exclude<Category, "전체">
+  category: Exclude<Category, "전체" | "요청사항">
   emoji: string
   title: string
   description?: string
@@ -17,8 +17,9 @@ export const categories: { label: Category; emoji: string }[] = [
   { label: "전체", emoji: "" },
   { label: "러닝/운동", emoji: "🏃" },
   { label: "보드게임", emoji: "🎲" },
-  { label: "위스키/사케", emoji: "🥃" },
-  { label: "카공/스터디", emoji: "✍️" },
+  { label: "음주", emoji: "🍻" },
+  { label: "스터디", emoji: "✍️" },
+  { label: "요청사항", emoji: "💬" },
 ]
 
 export const meetups: Meetup[] = [
@@ -60,9 +61,9 @@ export const meetups: Meetup[] = [
   },
   {
     id: "4",
-    category: "위스키/사케",
-    emoji: "🥃",
-    title: "서면 위스키 바 탐방 (남성팀)",
+    category: "음주",
+    emoji: "🍻",
+    title: "서면 위스키 바 정복하러 갈 팀",
     description: "위스키 입문자도 괜찮아요. 분위기 좋은 바 탐방!",
     currentMembers: 1,
     maxMembers: 2,
@@ -72,14 +73,38 @@ export const meetups: Meetup[] = [
   },
   {
     id: "5",
-    category: "카공/스터디",
+    category: "음주",
+    emoji: "🍻",
+    title: "맛집에서 맛있는 안주에 소주/맥주 곁들일 분",
+    description: "부산대 정문 근처 맛집에서 가볍게 한 잔!",
+    currentMembers: 2,
+    maxMembers: 4,
+    location: "부산대 정문",
+    timeLabel: "오늘 저녁 7시",
+    tags: ["소주", "맥주", "맛집", "안주"],
+  },
+  {
+    id: "6",
+    category: "스터디",
     emoji: "✍️",
-    title: "전공 벼락치기 카공",
-    description: "시험 기간 집중 카공! 서로 감시하며 공부해요.",
+    title: "공기업/대기업 취준 스터디 (NCS, 면접)",
+    description: "같이 NCS 풀고 모의면접 연습해요!",
+    currentMembers: 3,
+    maxMembers: 4,
+    location: "새벽벌 도서관",
+    timeLabel: "매주 화/목 오전 10시",
+    tags: ["취준", "NCS", "면접", "스터디"],
+  },
+  {
+    id: "7",
+    category: "스터디",
+    emoji: "✍️",
+    title: "전공 과목 벼락치기 및 정보 공유 (회로이론/자기학 등)",
+    description: "시험 기간 전공 벼락치기! 서로 모르는 부분 알려주며 공부해요.",
     currentMembers: 1,
-    maxMembers: 2,
-    location: "정문 투썸",
+    maxMembers: 3,
+    location: "제1공학관 카공",
     timeLabel: "내일 오후 1시",
-    tags: ["시험기간", "카공", "집중"],
+    tags: ["전공", "벼락치기", "공학", "시험"],
   },
 ]

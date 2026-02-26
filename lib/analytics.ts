@@ -5,6 +5,7 @@ type EventType =
   | "notification_signup"
   | "dialog_open"
   | "dialog_close"
+  | "feedback_submit"
 
 interface AnalyticsEvent {
   type: EventType
